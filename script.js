@@ -9,34 +9,55 @@ class Queue {
   }
 
   addValue(newValue) {
-    this.queue.unshift(newValue);
+    this.queue.push(newValue);
   }
 
   removeValue() {
-    this.queue.pop(this.queue[0]);
+    this.queue.shift(this.queue[0]);
   }
 
-  initSlots(slotsNumber, ...classes) {
+  initSlots(slotsNumber, wrapperClass, ...classes) {
     const markup = [];
-    while (slotsNumber) {
-      markup.push(`<div class=${classes}></div>`);
-      slotsNumber--;
+    for (let i = 0; i < slotsNumber; i++) {
+      markup.push(
+        `<div class=${wrapperClass}><div class=${classes}></div><span>${
+          i + 1
+        }</span></div>`
+      );
     }
     // console.log(markup.join(''));
     queueBlock.insertAdjacentHTML('beforeend', markup.join(''));
   }
 }
+
 const queue = new Queue();
-queue.initSlots(31, 'queue-item');
+queue.initSlots(5, 'wrapper', 'queue-item');
+
+// const queueItems = queue.children;
+const queueItems = document.querySelectorAll('.queue-item');
+console.log(queueItems);
+
+const showVisualization = () => {
+  for (let i = 0; i < queue.queue.length; i++) {
+    // console.log(queue.queue.length);
+    queueItems[i].textContent = queue.queue[i];
+  }
+
+  addButton.disabled =
+    queue.queue.length === queueItems.length ? true : false;
+  removeButton.disabled = queue.queue.length > 0 ? false : true;
+};
 
 const handleAddButton = (e) => {
   queue.addValue(inputValue.value);
-  // console.log(queue);
+  showVisualization();
 };
 
 const handleRemoveButton = () => {
   queue.removeValue();
-  // console.log(queue);
+
+  queueItems[queue.queue.length].innerHTML = '';
+  showVisualization();
 };
 
 addButton.addEventListener('click', handleAddButton);

@@ -1,0 +1,16 @@
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+.queue {
+  display: flex;
+  /* min-width: 100px;
+  height: 100px;
+  border: 2px solid red; */
+}
+
+.queue-item {
+  min-width: 50px;
+  height: 50px;
+  border: 1px solid olivedrab;
+}

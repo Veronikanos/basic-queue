@@ -7,13 +7,14 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
     <title>Basic queue</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="inputs-block">
       <label for="">Add to queue</label>
       <input id="inputValue" type="number" min="1" max="31" />
       <button id="addBtn">Add to queue</button>
-      <button id="removeBtn">Remove from queue</button>
+      <button id="removeBtn" disabled>Remove from queue</button>
     </div>
     <div class="queue" id="queue"></div>
 
