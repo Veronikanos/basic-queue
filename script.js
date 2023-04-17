@@ -76,10 +76,6 @@ const validateInput = (value, errorElement) => {
       'Please enter a number between 1 and 100 (inclusive)';
     return false;
   }
-  if (!value) {
-    errorElement.innerHTML = 'Input can not be empty.';
-    return false;
-  }
   return true;
 };
 
@@ -87,9 +83,8 @@ const handleAddButton = () => {
   const errorElement = document.querySelector('.error');
   errorElement.innerHTML = '';
 
+  if (!validateInput(inputValue.value, errorElement)) return;
   const num = parseInt(Number(inputValue.value.trim()));
-
-  if (!validateInput(num, errorElement)) return;
 
   queue.addValue(num);
   inputValue.value = '';
