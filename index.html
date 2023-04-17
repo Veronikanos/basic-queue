@@ -9,10 +9,14 @@
     <title>Basic queue</title>
   </head>
   <body>
-    <label for="">Add to queue</label>
-    <input type="number" min="1" max="31" />
-    <button>Add</button>
-    <button>Remove</button>
+    <div class="inputs-block">
+      <label for="">Add to queue</label>
+      <input id="inputValue" type="number" min="1" max="31" />
+      <button id="addBtn">Add to queue</button>
+      <button id="removeBtn">Remove from queue</button>
+    </div>
+    <div class="queue" id="queue"></div>
+
     <script src="./script.js"></script>
   </body>
 </html>
