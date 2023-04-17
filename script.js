@@ -4,9 +4,7 @@ const removeButton = document.querySelector('#removeBtn');
 const inputValue = document.querySelector('#inputValue');
 
 class Queue {
-  constructor() {
-    this.queue = [];
-  }
+  queue = [];
 
   addValue(newValue) {
     this.queue.push(newValue);
@@ -16,8 +14,12 @@ class Queue {
     this.queue.shift(this.queue[0]);
   }
 
-  get length() {
-    return this.queue.length;
+  setQueue(savedQueue) {
+    this.queue = savedQueue;
+  }
+
+  getQueue() {
+    return this.queue;
   }
 
   initSlots(slotsNumber, classes) {
@@ -36,16 +38,17 @@ class Queue {
 }
 
 const showVisualization = () => {
-  for (let i = 0; i < queue.length; i++) {
+  const length = queue.getQueue().length;
+
+  for (let i = 0; i < length; i++) {
     queueItems[i].textContent = queue.queue[i];
   }
-  if (queueItems[queue.length]) {
-    queueItems[queue.length].textContent = '';
+  if (queueItems[length]) {
+    queueItems[length].textContent = '';
   }
 
-  addButton.disabled =
-    queue.length === queueItems.length ? true : false;
-  removeButton.disabled = queue.length > 0 ? false : true;
+  addButton.disabled = length === queueItems.length ? true : false;
+  removeButton.disabled = length > 0 ? false : true;
 };
 
 const showAnimation = () => {
@@ -114,3 +117,15 @@ queueBlock.addEventListener('animationend', handleAnimationPlay);
 
 addButton.addEventListener('click', handleAddButton);
 removeButton.addEventListener('click', handleRemoveButton);
+
+window.addEventListener('load', () => {
+  const queueArray = localStorage.getItem('queueArray');
+  if (queueArray) {
+    queue.setQueue(JSON.parse(queueArray));
+  }
+  showVisualization();
+});
+
+window.addEventListener('beforeunload', () => {
+  localStorage.setItem('queueArray', JSON.stringify(queue.queue));
+});
