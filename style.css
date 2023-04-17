@@ -1,3 +1,6 @@
+* {
+  box-sizing: content-box;
+}
 body {
   padding: 20px;
 }
@@ -24,8 +27,9 @@ button:not(:disabled) {
 
 .queue {
   display: flex;
-  gap: 5px;
+  justify-content: center;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
 .wrapper-items {
@@ -34,21 +38,37 @@ button:not(:disabled) {
   align-items: center;
 }
 
-.queue-item {
+.border-container {
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 50px;
   height: 50px;
-  font-size: 24px;
-  color: rgb(0, 87, 87);
-
   border-radius: 50%;
   border: 1px solid darkcyan;
+}
+
+.queue-item {
+  font-size: 24px;
+  color: rgb(0, 87, 87);
+  position: relative;
 }
 
 .error {
   height: 20px;
   display: block;
   color: red;
+}
+
+.queue-item-animate {
+  animation: move-queue-item 1s ease-in-out;
+}
+
+@keyframes move-queue-item {
+  from {
+    right: 0;
+  }
+  to {
+    right: 57px;
+  }
 }

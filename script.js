@@ -16,11 +16,13 @@ class Queue {
     this.queue.shift(this.queue[0]);
   }
 
-  initSlots(slotsNumber, wrapperClass, ...classes) {
+  initSlots(slotsNumber, classes) {
     const markup = [];
     for (let i = 0; i < slotsNumber; i++) {
       markup.push(
-        `<div class=${wrapperClass}><div class=${classes}></div><span>${
+        `<div class=${classes[0]}><div class=${
+          classes[1]
+        }><span class=${classes[2]}></span></div><span>${
           i + 1
         }</span></div>`
       );
@@ -31,7 +33,11 @@ class Queue {
 }
 
 const queue = new Queue();
-queue.initSlots(2, 'wrapper-items', 'queue-item');
+queue.initSlots(5, [
+  'wrapper-items',
+  'border-container',
+  'queue-item',
+]);
 
 // const queueItems = queue.children;
 const queueItems = document.querySelectorAll('.queue-item');
@@ -42,11 +48,33 @@ const showVisualization = () => {
     // console.log(queue.queue.length);
     queueItems[i].textContent = queue.queue[i];
   }
+  if (queueItems[queue.queue.length]) {
+    queueItems[queue.queue.length].textContent = '';
+  }
 
   addButton.disabled =
     queue.queue.length === queueItems.length ? true : false;
   removeButton.disabled = queue.queue.length > 0 ? false : true;
 };
+
+const showAnimation = () => {
+  console.log(queue.queue.length);
+  // if (queue.queue.length > 1) {
+  queueItems.forEach((item) =>
+    item.classList.add('queue-item-animate')
+  );
+  // }
+};
+
+const handleAnimation = () => {
+  queueItems.forEach((item) =>
+    item.classList.remove('queue-item-animate')
+  );
+
+  showVisualization();
+};
+
+queueBlock.addEventListener('animationend', handleAnimation);
 
 const handleAddButton = (e) => {
   const errorElement = document.querySelector('.error');
@@ -59,16 +87,28 @@ const handleAddButton = (e) => {
 
   queue.addValue(inputValue.value);
   inputValue.value = '';
+  // queueItems.forEach((item) =>
+  //   item.classList.add('queue-item-animate')
+  // );
+
   showVisualization();
 };
 
 const handleRemoveButton = () => {
-  queue.removeValue();
   const errorElement = document.querySelector('.error');
   if (errorElement.innerHTML) errorElement.innerHTML = '';
 
-  queueItems[queue.queue.length].innerHTML = '';
-  showVisualization();
+  console.log(queueItems[queue.queue.length]);
+  // if (queueItems[queue.queue.length].innerHTML) {
+  //   queueItems[queue.queue.length].innerHTML = '';
+  // }
+
+  showAnimation();
+
+  console.log(queue.queue);
+  queue.removeValue();
+  console.log(queue.queue);
+  // showVisualization();
 };
 
 addButton.addEventListener('click', handleAddButton);
