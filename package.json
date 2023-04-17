@@ -1,0 +1,23 @@
+{
+  "name": "basic-queue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Veronikanos/basic-queue.git"
+  },
+  "author": "Veronika Tlostiuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Veronikanos/basic-queue/issues"
+  },
+  "homepage": "https://github.com/Veronikanos/basic-queue#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
