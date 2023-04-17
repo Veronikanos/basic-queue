@@ -31,7 +31,7 @@ class Queue {
 }
 
 const queue = new Queue();
-queue.initSlots(5, 'wrapper', 'queue-item');
+queue.initSlots(2, 'wrapper-items', 'queue-item');
 
 // const queueItems = queue.children;
 const queueItems = document.querySelectorAll('.queue-item');
@@ -49,12 +49,23 @@ const showVisualization = () => {
 };
 
 const handleAddButton = (e) => {
+  const errorElement = document.querySelector('.error');
+  errorElement.innerHTML = '';
+
+  if (!inputValue.value) {
+    errorElement.innerHTML = 'Input can not be empty';
+    return;
+  }
+
   queue.addValue(inputValue.value);
+  inputValue.value = '';
   showVisualization();
 };
 
 const handleRemoveButton = () => {
   queue.removeValue();
+  const errorElement = document.querySelector('.error');
+  if (errorElement.innerHTML) errorElement.innerHTML = '';
 
   queueItems[queue.queue.length].innerHTML = '';
   showVisualization();

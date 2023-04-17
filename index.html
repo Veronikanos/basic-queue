@@ -10,11 +10,14 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h1>Visual representation of queue</h1>
     <div class="inputs-block">
       <label for="">Add to queue</label>
-      <input id="inputValue" type="number" min="1" max="31" />
-      <button id="addBtn">Add to queue</button>
-      <button id="removeBtn" disabled>Remove from queue</button>
+      <input id="inputValue" type="number" />
+      <input id="addBtn" type="submit" value="Enqueue" />
+      <!-- <button>Enqueue</button> -->
+      <button id="removeBtn" disabled>Dequeue</button>
+      <span class="error"></span>
     </div>
     <div class="queue" id="queue"></div>
 
