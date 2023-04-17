@@ -70,11 +70,10 @@ const handleAnimationPlay = () => {
   removeButton.addEventListener('click', handleRemoveButton);
 };
 
-const validateInput = (val, errorElement) => {
-  const value = Number(val.trim());
+const validateInput = (value, errorElement) => {
   if (isNaN(value) || value < 1 || value > 100) {
     errorElement.innerHTML =
-      'Please enter a number between 1 and 100';
+      'Please enter a number between 1 and 100 (inclusive)';
     return false;
   }
   if (!value) {
@@ -88,9 +87,11 @@ const handleAddButton = () => {
   const errorElement = document.querySelector('.error');
   errorElement.innerHTML = '';
 
-  if (!validateInput(inputValue.value, errorElement)) return;
+  const num = parseInt(Number(inputValue.value.trim()));
 
-  queue.addValue(inputValue.value);
+  if (!validateInput(num, errorElement)) return;
+
+  queue.addValue(num);
   inputValue.value = '';
 
   showVisualization();
