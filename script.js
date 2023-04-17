@@ -16,6 +16,10 @@ class Queue {
     this.queue.shift(this.queue[0]);
   }
 
+  get length() {
+    return this.queue.length;
+  }
+
   initSlots(slotsNumber, classes) {
     const markup = [];
     for (let i = 0; i < slotsNumber; i++) {
@@ -27,69 +31,64 @@ class Queue {
         }</span></div>`
       );
     }
-    // console.log(markup.join(''));
     queueBlock.insertAdjacentHTML('beforeend', markup.join(''));
   }
 }
 
-const queue = new Queue();
-queue.initSlots(5, [
-  'wrapper-items',
-  'border-container',
-  'queue-item',
-]);
-
-// const queueItems = queue.children;
-const queueItems = document.querySelectorAll('.queue-item');
-console.log(queueItems);
-
 const showVisualization = () => {
-  for (let i = 0; i < queue.queue.length; i++) {
-    // console.log(queue.queue.length);
+  for (let i = 0; i < queue.length; i++) {
     queueItems[i].textContent = queue.queue[i];
   }
-  if (queueItems[queue.queue.length]) {
-    queueItems[queue.queue.length].textContent = '';
+  if (queueItems[queue.length]) {
+    queueItems[queue.length].textContent = '';
   }
 
   addButton.disabled =
-    queue.queue.length === queueItems.length ? true : false;
-  removeButton.disabled = queue.queue.length > 0 ? false : true;
+    queue.length === queueItems.length ? true : false;
+  removeButton.disabled = queue.length > 0 ? false : true;
 };
 
 const showAnimation = () => {
-  console.log(queue.queue.length);
-  // if (queue.queue.length > 1) {
+  addButton.removeEventListener('click', handleAddButton);
+  removeButton.removeEventListener('click', handleRemoveButton);
+
   queueItems.forEach((item) =>
     item.classList.add('queue-item-animate')
   );
-  // }
 };
 
-const handleAnimation = () => {
+const handleAnimationPlay = () => {
   queueItems.forEach((item) =>
     item.classList.remove('queue-item-animate')
   );
 
   showVisualization();
+  addButton.addEventListener('click', handleAddButton);
+  removeButton.addEventListener('click', handleRemoveButton);
 };
 
-queueBlock.addEventListener('animationend', handleAnimation);
+const validateInput = (val, errorElement) => {
+  const value = Number(val.trim());
+  if (isNaN(value) || value < 1 || value > 100) {
+    errorElement.innerHTML =
+      'Please enter a number between 1 and 100';
+    return false;
+  }
+  if (!value) {
+    errorElement.innerHTML = 'Input can not be empty.';
+    return false;
+  }
+  return true;
+};
 
-const handleAddButton = (e) => {
+const handleAddButton = () => {
   const errorElement = document.querySelector('.error');
   errorElement.innerHTML = '';
 
-  if (!inputValue.value) {
-    errorElement.innerHTML = 'Input can not be empty';
-    return;
-  }
+  if (!validateInput(inputValue.value, errorElement)) return;
 
   queue.addValue(inputValue.value);
   inputValue.value = '';
-  // queueItems.forEach((item) =>
-  //   item.classList.add('queue-item-animate')
-  // );
 
   showVisualization();
 };
@@ -98,18 +97,20 @@ const handleRemoveButton = () => {
   const errorElement = document.querySelector('.error');
   if (errorElement.innerHTML) errorElement.innerHTML = '';
 
-  console.log(queueItems[queue.queue.length]);
-  // if (queueItems[queue.queue.length].innerHTML) {
-  //   queueItems[queue.queue.length].innerHTML = '';
-  // }
-
   showAnimation();
-
-  console.log(queue.queue);
   queue.removeValue();
-  console.log(queue.queue);
-  // showVisualization();
 };
+
+const queue = new Queue();
+
+queue.initSlots(31, [
+  'wrapper-items',
+  'border-container',
+  'queue-item',
+]);
+
+const queueItems = document.querySelectorAll('.queue-item');
+queueBlock.addEventListener('animationend', handleAnimationPlay);
 
 addButton.addEventListener('click', handleAddButton);
 removeButton.addEventListener('click', handleRemoveButton);

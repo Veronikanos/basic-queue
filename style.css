@@ -30,6 +30,7 @@ button:not(:disabled) {
   justify-content: center;
   flex-wrap: wrap;
   gap: 5px;
+  overflow-x: hidden;
 }
 
 .wrapper-items {
